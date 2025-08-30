@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+  <persistence-unit name="com.mycompany_People.com_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.mycompany.people.com.Model.Rol</class>
+    <class>com.mycompany.people.com.Model.Cliente</class>
+    <class>com.mycompany.people.com.Model.LogSesion</class>
+    <class>com.mycompany.people.com.Model.RolPermiso</class>
+    <class>com.mycompany.people.com.Model.Postulante</class>
+    <class>com.mycompany.people.com.Model.FacturaDetalle</class>
+    <class>com.mycompany.people.com.Model.EducacionDetalle</class>
+    <class>com.mycompany.people.com.Model.Permiso</class>
+    <class>com.mycompany.people.com.Model.Vacante</class>
+    <class>com.mycompany.people.com.Model.Municipio</class>
+    <class>com.mycompany.people.com.Model.Costo</class>
+    <class>com.mycompany.people.com.Model.Educacion</class>
+    <class>com.mycompany.people.com.Model.Proceso</class>
+    <class>com.mycompany.people.com.Model.Factura</class>
+    <class>com.mycompany.people.com.Model.Genero</class>
+    <class>com.mycompany.people.com.Model.Departamento</class>
+    <class>com.mycompany.people.com.Model.ExperienciaDetalle</class>
+    <class>com.mycompany.people.com.Model.Experiencia</class>
+    <class>com.mycompany.people.com.Model.Usuario</class>
+    <class>com.mycompany.people.com.Model.UsuarioAdministrador</class>
+    <class>com.mycompany.people.com.Model.OfertaEmpleo</class>
+    <class>com.mycompany.people.com.Model.Fase</class>
+    <class>com.mycompany.people.com.Model.UsuarioRol</class>
+    <class>com.mycompany.people.com.Model.CodigoPostal</class>
+    <class>com.mycompany.people.com.Models.LogSesion</class>
+    <class>com.mycompany.people.com.Models.Postulante</class>
+    <class>com.mycompany.people.com.Models.Vacante</class>
+    <class>com.mycompany.people.com.Models.ExperienciaDetalle</class>
+    <class>com.mycompany.people.com.Models.Fase</class>
+    <class>com.mycompany.people.com.Models.Factura</class>
+    <class>com.mycompany.people.com.Models.OfertaEmpleo</class>
+    <class>com.mycompany.people.com.Models.Cliente</class>
+    <class>com.mycompany.people.com.Models.EducacionDetalle</class>
+    <class>com.mycompany.people.com.Models.RolPermiso</class>
+    <class>com.mycompany.people.com.Models.Permiso</class>
+    <class>com.mycompany.people.com.Models.Municipio</class>
+    <class>com.mycompany.people.com.Models.Educacion</class>
+    <class>com.mycompany.people.com.Models.UsuarioAdministrador</class>
+    <class>com.mycompany.people.com.Models.Usuario</class>
+    <class>com.mycompany.people.com.Models.FacturaDetalle</class>
+    <class>com.mycompany.people.com.Models.Experiencia</class>
+    <class>com.mycompany.people.com.Models.Costo</class>
+    <class>com.mycompany.people.com.Models.Departamento</class>
+    <class>com.mycompany.people.com.Models.Genero</class>
+    <class>com.mycompany.people.com.Models.Rol</class>
+    <class>com.mycompany.people.com.Models.Proceso</class>
+    <class>com.mycompany.people.com.Models.CodigoPostal</class>
+    <class>com.mycompany.people.com.Models.UsuarioRol</class>
+    <class>com.mycompany.people.com.Models.Requisito</class>
+    <class>com.mycompany.people.com.Models.NivelAcademico</class>
+    <class>com.mycompany.people.com.Models.Administrador</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=SistemaReclutadora;trustServerCertificate=true;encrypt=true"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.password" value="TuPasswordSeguro123!"/>
+    </properties>
+  </persistence-unit>
+</persistence>
