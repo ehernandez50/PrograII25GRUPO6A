@@ -6,7 +6,6 @@ package com.mycompany.people.com.Models;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,6 +27,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "oferta_empleo")
 @NamedQueries({
+    @NamedQuery(name = "OfertaEmpleo.buscarOfertas", query = "SELECT o FROM OfertaEmpleo o WHERE o.clienteId=:cliente"),
+    @NamedQuery(name = "OfertaEmpleo.borrar", query = "DELETE FROM OfertaEmpleo o WHERE o.ofertaEmpleoId = :id"),
     @NamedQuery(name = "OfertaEmpleo.findAll", query = "SELECT o FROM OfertaEmpleo o"),
     @NamedQuery(name = "OfertaEmpleo.findByOfertaEmpleoId", query = "SELECT o FROM OfertaEmpleo o WHERE o.ofertaEmpleoId = :ofertaEmpleoId"),
     @NamedQuery(name = "OfertaEmpleo.findByFecha", query = "SELECT o FROM OfertaEmpleo o WHERE o.fecha = :fecha")})
@@ -43,8 +43,6 @@ public class OfertaEmpleo implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @OneToMany(mappedBy = "ofertaEmpleoId")
-    private List<FacturaDetalle> facturaDetalleList;
     @JoinColumn(name = "cliente_id", referencedColumnName = "cliente_id")
     @ManyToOne
     private Cliente clienteId;
@@ -76,14 +74,6 @@ public class OfertaEmpleo implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public List<FacturaDetalle> getFacturaDetalleList() {
-        return facturaDetalleList;
-    }
-
-    public void setFacturaDetalleList(List<FacturaDetalle> facturaDetalleList) {
-        this.facturaDetalleList = facturaDetalleList;
     }
 
     public Cliente getClienteId() {

@@ -4,32 +4,59 @@
  */
 package com.mycompany.people.com;
 
+
+import com.mycompany.people.com.Models.CodigoPostal;
+import com.mycompany.people.com.Models.Usuario;
+import com.mycompany.people.com.Repository.ClienteJpaController;
+import com.mycompany.people.com.Repository.CodigoPostalJpaController;
+import com.mycompany.people.com.Repository.PostulanteJpaController;
 import com.mycompany.people.com.Repository.UsuarioJpaController;
+import com.mycompany.people.com.Servicios.ServiciosCliente;
+import com.mycompany.people.com.Servicios.ServiciosPostulante;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Scanner;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.sound.midi.Soundbank;
+import javax.persistence.Persistence;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
  * @author Jovany
  */
 public class Inicio {
-    public static void main(String[] args) {
-        
-        
-        
-        Inicio inicio=new Inicio();
+    
+     EntityManagerFactory emf;
+   
+   public Inicio(EntityManagerFactory emf){
+   this.emf=emf;
+
+   }
+    
+    public static void main(String[] args) throws UnsupportedLookAndFeelException {
+     
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_People.com_jar_1.0-SNAPSHOTPU");
+        Inicio inicio = new Inicio(emf);
         inicio.menu();
         
         
         
     }
-    EntityManagerFactory emf;
-    UsuarioJpaController usuarioJpa = new UsuarioJpaController(emf);
+    
+    
+    
+    
+    
+    
+    
+   
+   
     
     Scanner sc= new Scanner(System.in);
+    
+    
     public  void menu(){
         while (true) {            
             
@@ -45,10 +72,10 @@ public class Inicio {
         int opcion = sc.nextInt();
                 switch (opcion) {
                        case 1:
-                           Registrarse();
+                           MenuRegistrarse();
                         break;
                         case 2:
-                        
+                        IniciarSesion();
                         break;
                         case 3:
                         return;
@@ -68,31 +95,38 @@ public class Inicio {
     }
     
     
-    void Registrarse(){
+       void MenuRegistrarse(){
         
         while (true) {            
             
             try {
                 
             
-        System.out.println("1. Postulante");
-        System.out.println("2. Empresa");
+                System.out.println("1. Postulante");
+                System.out.println("2. Empresa");
+                System.out.println("3. exit");
         int opcion = sc.nextInt();
         
         
         
             switch (opcion) {
                     case 1:
-                        System.out.println("postulante");
+                        PostulanteJpaController p = new PostulanteJpaController(emf);
+                        p.FormPostulante();
                         
                         
                     break;
                     case 2:
-                        System.out.println("empresa");
+                      ClienteJpaController servicios = new ClienteJpaController(emf);
+                      servicios.FormCliente();
+                      
                     break;
                     
                     
+                    case 3:
+                        return;
                     
+                   
                 default:
                     
                     System.out.println("otra");
@@ -101,6 +135,7 @@ public class Inicio {
     
     } catch (Exception e) {
                 System.out.println("Ingrese un opcion valida");
+                System.out.println(e);
             }
             
             
@@ -131,17 +166,55 @@ public class Inicio {
            System.out.println("Usuario");
            String usuario = sc.next();
            
-           System.out.println("Contrasena");
-           String contrasena = sc.next();
-           
-           usuarioJpa.login(usuario, contrasena);
+          System.out.println("Contrasena");
+          String contrasena = sc.next();
+           UsuarioJpaController usuarioJpa = new UsuarioJpaController(emf);
+          
+         Integer rol=  usuarioJpa.login(usuario, contrasena);
+         Usuario userId = usuarioJpa.buscarUsuario(usuario);
+         
+                   System.out.println(rol);
+                   System.out.println("");
+                   
+                   if (rol !=null) {
+                    
+                       switch (rol) {
+                           case 3:
+                               
+                               ServiciosCliente cliente = new ServiciosCliente(emf,userId);
+                               cliente.AppCliente();
+                               break;
+                               case 2:
+                                   ServiciosPostulante p = new ServiciosPostulante(userId.getUsuarioId());
+                                   p.PostulanteApp();
+                               
+                               break;
+                           default:
+                               throw new AssertionError();
+                       }
+                       
+                       
+                       
+                       
+                       
+                       
+                   }
+                   else{
+                       
+                       System.out.println("El usuario no existe");
+                   }
+         
            
                    
            } catch (Exception e) {
-               
-                   System.out.println("Ingrese un opcion valida");
+                   System.out.println(e);
+                   System.out.println("El usuario no existe");
                }
            }
     
     }
+       
+       
+       
+   
 }

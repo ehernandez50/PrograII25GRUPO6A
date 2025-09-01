@@ -7,6 +7,7 @@ package com.mycompany.people.com.Models;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,10 +27,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "codigo_postal")
 @NamedQueries({
+    @NamedQuery(name = "CodigoPostal.BuscarCodigo",  query = "SELECT co FROM CodigoPostal co WHERE co.codigo=:cod"),
     @NamedQuery(name = "CodigoPostal.findAll", query = "SELECT c FROM CodigoPostal c"),
     @NamedQuery(name = "CodigoPostal.findByCodPostalId", query = "SELECT c FROM CodigoPostal c WHERE c.codPostalId = :codPostalId"),
     @NamedQuery(name = "CodigoPostal.findByCodigo", query = "SELECT c FROM CodigoPostal c WHERE c.codigo = :codigo")})
 public class CodigoPostal implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codPostalId")
+    private List<Vacante> vacanteList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,15 +42,23 @@ public class CodigoPostal implements Serializable {
     @Basic(optional = false)
     @Column(name = "cod_postal_id")
     private Integer codPostalId;
+    
+    
+    
     @Column(name = "codigo")
     private Integer codigo;
+    
+    
+    @OneToMany(mappedBy = "codPostal")
+    private List<Cliente> clienteList;
+    
+    
     @JoinColumn(name = "municipio_id", referencedColumnName = "municipio_id")
     @ManyToOne
     private Municipio municipioId;
-    @OneToMany(mappedBy = "codPostalId")
-    private List<Postulante> postulanteList;
-    @OneToMany(mappedBy = "codPostalId")
-    private List<Vacante> vacanteList;
+    
+    
+    
 
     public CodigoPostal() {
     }
@@ -70,28 +83,20 @@ public class CodigoPostal implements Serializable {
         this.codigo = codigo;
     }
 
+    public List<Cliente> getClienteList() {
+        return clienteList;
+    }
+
+    public void setClienteList(List<Cliente> clienteList) {
+        this.clienteList = clienteList;
+    }
+
     public Municipio getMunicipioId() {
         return municipioId;
     }
 
     public void setMunicipioId(Municipio municipioId) {
         this.municipioId = municipioId;
-    }
-
-    public List<Postulante> getPostulanteList() {
-        return postulanteList;
-    }
-
-    public void setPostulanteList(List<Postulante> postulanteList) {
-        this.postulanteList = postulanteList;
-    }
-
-    public List<Vacante> getVacanteList() {
-        return vacanteList;
-    }
-
-    public void setVacanteList(List<Vacante> vacanteList) {
-        this.vacanteList = vacanteList;
     }
 
     @Override
@@ -117,6 +122,14 @@ public class CodigoPostal implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.people.com.Models.CodigoPostal[ codPostalId=" + codPostalId + " ]";
+    }
+
+    public List<Vacante> getVacanteList() {
+        return vacanteList;
+    }
+
+    public void setVacanteList(List<Vacante> vacanteList) {
+        this.vacanteList = vacanteList;
     }
     
 }

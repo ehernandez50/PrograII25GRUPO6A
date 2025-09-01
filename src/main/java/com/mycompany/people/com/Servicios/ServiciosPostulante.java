@@ -7,9 +7,14 @@ package com.mycompany.people.com.Servicios;
 
 import com.mycompany.people.com.Models.CodigoPostal;
 import com.mycompany.people.com.Models.Postulante;
+import com.mycompany.people.com.Models.Usuario;
 import com.mycompany.people.com.Models.Vacante;
+import com.mycompany.people.com.Repository.ClienteJpaController;
+import com.mycompany.people.com.Repository.CodigoPostalJpaController;
 import com.mycompany.people.com.Repository.PostulanteJpaController;
+import com.mycompany.people.com.Repository.UsuarioJpaController;
 import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,6 +26,7 @@ public class ServiciosPostulante {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_People.com_jar_1.0-SNAPSHOTPU");
     Long UsuarioID;
     PostulanteJpaController perfil = new PostulanteJpaController(emf);
+    
     public ServiciosPostulante(Long UsuarioID){
     this.UsuarioID =UsuarioID;
     }
@@ -29,6 +35,7 @@ public class ServiciosPostulante {
     
         while (true) {            
     try {
+        System.out.println("===================PANEL POSTULANTE====================");
         System.out.println("Opciones");
         System.out.println("1. Ver Perfil");
         System.out.println("2. Modificar Perfil");
@@ -55,6 +62,7 @@ public class ServiciosPostulante {
         }
     } catch (Exception e) {
         System.out.println("No válida");
+        System.out.println(e);
         sc.nextLine(); // limpia buffer para que no se repita error infinito
     } 
 }
@@ -209,7 +217,5 @@ while (!salir) {
     
     
     
-    
-    
-    
+       
 }

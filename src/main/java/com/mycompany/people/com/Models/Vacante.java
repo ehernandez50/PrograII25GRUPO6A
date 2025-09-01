@@ -5,7 +5,6 @@
 package com.mycompany.people.com.Models;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -26,12 +24,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "vacante")
 @NamedQueries({
-    @NamedQuery(name = "Vacante.findAll", query = "SELECT v FROM Vacante v"),
+     @NamedQuery(name = "Vacante.findAll", query = "SELECT v FROM Vacante v"),
   
+    @NamedQuery(name = "Vacante.borrar", query = "DELETE FROM Vacante WHERE vacanteId=:id"),
+    @NamedQuery(name = "Vacante.findAll", query = "SELECT v FROM Vacante v"),
     @NamedQuery(name = "Vacante.findByVacanteId", query = "SELECT v FROM Vacante v WHERE v.vacanteId = :vacanteId"),
     @NamedQuery(name = "Vacante.findByPuesto", query = "SELECT v FROM Vacante v WHERE v.puesto = :puesto"),
     @NamedQuery(name = "Vacante.findByDescripcion", query = "SELECT v FROM Vacante v WHERE v.descripcion = :descripcion"),
-    @NamedQuery(name = "Vacante.findBySalario", query = "SELECT v FROM Vacante v WHERE v.salario = :salario")})
+    @NamedQuery(name = "Vacante.findBySalario", query = "SELECT v FROM Vacante v WHERE v.salario = :salario"),
+    @NamedQuery(name = "Vacante.findByStatus", query = "SELECT v FROM Vacante v WHERE v.status = :status")})
 public class Vacante implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,19 +44,20 @@ public class Vacante implements Serializable {
     @Basic(optional = false)
     @Column(name = "puesto")
     private String puesto;
+    @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
+    @Basic(optional = false)
     @Column(name = "salario")
-    private Integer salario;
-    @OneToMany(mappedBy = "vacanteId")
-    private List<OfertaEmpleo> ofertaEmpleoList;
-    @OneToMany(mappedBy = "vacanteId")
-    private List<Proceso> procesoList;
+    private int salario;
+    @Basic(optional = false)
+    @Column(name = "status")
+    private boolean status;
     @JoinColumn(name = "cod_postal_id", referencedColumnName = "cod_postal_id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private CodigoPostal codPostalId;
     @JoinColumn(name = "requisito_id", referencedColumnName = "requisito_id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Requisito requisitoId;
 
     public Vacante() {
@@ -65,9 +67,12 @@ public class Vacante implements Serializable {
         this.vacanteId = vacanteId;
     }
 
-    public Vacante(Long vacanteId, String puesto) {
+    public Vacante(Long vacanteId, String puesto, String descripcion, int salario, boolean status) {
         this.vacanteId = vacanteId;
         this.puesto = puesto;
+        this.descripcion = descripcion;
+        this.salario = salario;
+        this.status = status;
     }
 
     public Long getVacanteId() {
@@ -94,28 +99,20 @@ public class Vacante implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Integer getSalario() {
+    public int getSalario() {
         return salario;
     }
 
-    public void setSalario(Integer salario) {
+    public void setSalario(int salario) {
         this.salario = salario;
     }
 
-    public List<OfertaEmpleo> getOfertaEmpleoList() {
-        return ofertaEmpleoList;
+    public boolean getStatus() {
+        return status;
     }
 
-    public void setOfertaEmpleoList(List<OfertaEmpleo> ofertaEmpleoList) {
-        this.ofertaEmpleoList = ofertaEmpleoList;
-    }
-
-    public List<Proceso> getProcesoList() {
-        return procesoList;
-    }
-
-    public void setProcesoList(List<Proceso> procesoList) {
-        this.procesoList = procesoList;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public CodigoPostal getCodPostalId() {

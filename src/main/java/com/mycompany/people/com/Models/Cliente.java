@@ -26,16 +26,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cliente")
 @NamedQueries({
+    @NamedQuery(name = "Cliente.buscarPerfil" , query="SELECT c FROM Cliente c WHERE c.usuarioId=:iduser "),
     @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c"),
     @NamedQuery(name = "Cliente.findByClienteId", query = "SELECT c FROM Cliente c WHERE c.clienteId = :clienteId"),
     @NamedQuery(name = "Cliente.findByEmpresa", query = "SELECT c FROM Cliente c WHERE c.empresa = :empresa"),
     @NamedQuery(name = "Cliente.findByNombreContacto", query = "SELECT c FROM Cliente c WHERE c.nombreContacto = :nombreContacto"),
     @NamedQuery(name = "Cliente.findByCorreo", query = "SELECT c FROM Cliente c WHERE c.correo = :correo"),
-    @NamedQuery(name = "Cliente.findByCodPostal", query = "SELECT c FROM Cliente c WHERE c.codPostal = :codPostal"),
     @NamedQuery(name = "Cliente.findByNit", query = "SELECT c FROM Cliente c WHERE c.nit = :nit"),
     @NamedQuery(name = "Cliente.findByPuestoContacto", query = "SELECT c FROM Cliente c WHERE c.puestoContacto = :puestoContacto"),
     @NamedQuery(name = "Cliente.findByTelefono", query = "SELECT c FROM Cliente c WHERE c.telefono = :telefono")})
 public class Cliente implements Serializable {
+
+    @OneToMany(mappedBy = "clienteId")
+    private List<OfertaEmpleo> ofertaEmpleoList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,18 +53,16 @@ public class Cliente implements Serializable {
     private String nombreContacto;
     @Column(name = "correo")
     private String correo;
-    @Column(name = "cod_postal")
-    private Integer codPostal;
+    @Basic(optional = false)
     @Column(name = "nit")
-    private Long nit;
+    private long nit;
     @Column(name = "puesto_contacto")
     private String puestoContacto;
     @Column(name = "telefono")
     private Integer telefono;
-    @OneToMany(mappedBy = "clienteId")
-    private List<OfertaEmpleo> ofertaEmpleoList;
-    @OneToMany(mappedBy = "clienteId")
-    private List<Factura> facturaList;
+    @JoinColumn(name = "cod_postal", referencedColumnName = "cod_postal_id")
+    @ManyToOne
+    private CodigoPostal codPostal;
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     @ManyToOne
     private Usuario usuarioId;
@@ -73,9 +74,10 @@ public class Cliente implements Serializable {
         this.clienteId = clienteId;
     }
 
-    public Cliente(Long clienteId, String empresa) {
+    public Cliente(Long clienteId, String empresa, long nit) {
         this.clienteId = clienteId;
         this.empresa = empresa;
+        this.nit = nit;
     }
 
     public Long getClienteId() {
@@ -110,19 +112,11 @@ public class Cliente implements Serializable {
         this.correo = correo;
     }
 
-    public Integer getCodPostal() {
-        return codPostal;
-    }
-
-    public void setCodPostal(Integer codPostal) {
-        this.codPostal = codPostal;
-    }
-
-    public Long getNit() {
+    public long getNit() {
         return nit;
     }
 
-    public void setNit(Long nit) {
+    public void setNit(long nit) {
         this.nit = nit;
     }
 
@@ -142,20 +136,12 @@ public class Cliente implements Serializable {
         this.telefono = telefono;
     }
 
-    public List<OfertaEmpleo> getOfertaEmpleoList() {
-        return ofertaEmpleoList;
+    public CodigoPostal getCodPostal() {
+        return codPostal;
     }
 
-    public void setOfertaEmpleoList(List<OfertaEmpleo> ofertaEmpleoList) {
-        this.ofertaEmpleoList = ofertaEmpleoList;
-    }
-
-    public List<Factura> getFacturaList() {
-        return facturaList;
-    }
-
-    public void setFacturaList(List<Factura> facturaList) {
-        this.facturaList = facturaList;
+    public void setCodPostal(CodigoPostal codPostal) {
+        this.codPostal = codPostal;
     }
 
     public Usuario getUsuarioId() {
@@ -189,6 +175,14 @@ public class Cliente implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.people.com.Models.Cliente[ clienteId=" + clienteId + " ]";
+    }
+
+    public List<OfertaEmpleo> getOfertaEmpleoList() {
+        return ofertaEmpleoList;
+    }
+
+    public void setOfertaEmpleoList(List<OfertaEmpleo> ofertaEmpleoList) {
+        this.ofertaEmpleoList = ofertaEmpleoList;
     }
     
 }

@@ -2,6 +2,7 @@ com\mycompany\people\com\Models\OfertaEmpleo.class
 com\mycompany\people\com\Repository\DepartamentoJpaController.class
 com\mycompany\people\com\Repository\PermisoJpaController.class
 com\mycompany\people\com\Repository\UsuarioJpaController.class
+com\mycompany\people\com\Servicios\ServiciosCliente.class
 com\mycompany\people\com\Repository\ProcesoJpaController.class
 com\mycompany\people\com\Repository\PostulanteJpaController.class
 com\mycompany\people\com\Models\Usuario.class

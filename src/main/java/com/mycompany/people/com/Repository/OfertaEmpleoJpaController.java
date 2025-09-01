@@ -57,6 +57,7 @@ public class OfertaEmpleoJpaController {
             System.out.println("Nivel Academico: seleccione");
             if (sc.hasNextInt()) {
                 opcion= sc.nextInt();
+                sc.nextLine();
                 try {
                     
         nu = em.createNamedQuery("NivelAcademico.findByNivelAcademicoId", NivelAcademico.class)
@@ -103,15 +104,17 @@ for (Costo costo1 : costo) {
 
 }
 
+
  Long opcion;
  Costo costo7 = new Costo();
+ 
          while (true) {  
              
           System.out.println("Seleccione el plan.");
           
         if (sc.hasNextInt()) {
             opcion = sc.nextLong();
-            sc.nextLine();
+            
             
             try {
                 
@@ -119,9 +122,12 @@ for (Costo costo1 : costo) {
          costo7 = em.createNamedQuery("Costo.findByCostoId",Costo.class)
                  .setParameter("costoId",opcion)
                  .getSingleResult();
+         
          break;
-         } catch (Exception e) {
-             continue;
+         
+         }
+            catch (Exception e) {
+             sc.nextLine();
             }
          
             
@@ -157,6 +163,7 @@ for (Costo costo1 : costo) {
       
       of.setCostoId(buscarCosto());
       
+      
         try {
             em.getTransaction().begin();
             em.persist(of);
@@ -180,13 +187,15 @@ for (Costo costo1 : costo) {
         
     EntityManager em = emf.createEntityManager();
     of = em.createNamedQuery("OfertaEmpleo.buscarOfertas", OfertaEmpleo.class)
-            .setParameter("idcliente",cliente )
+            .setParameter("cliente",cliente )
             .getResultList();
     for (OfertaEmpleo ofertaEmpleo : of) {
+        System.out.println("===========================================");
+        System.out.println(ofertaEmpleo.getOfertaEmpleoId());
             System.out.println(ofertaEmpleo.getFecha());
             System.out.println(ofertaEmpleo.getClienteId().getEmpresa());
             System.out.println(ofertaEmpleo.getVacanteId().getPuesto());
-            
+            System.out.println("===========================================");
         }
         } catch (Exception e) {
             
@@ -242,7 +251,8 @@ for (Costo costo1 : costo) {
     v.setDescripcion(descripcion);
     v.setSalario(salario);
     v.setCodPostalId(cod);
-    v.getRequisitoId();
+    v.setRequisitoId(r);
+    v.setStatus(true);
     
     em.getTransaction().begin();
     em.persist(v);

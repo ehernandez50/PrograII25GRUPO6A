@@ -35,13 +35,20 @@ public class Municipio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    
     @Column(name = "municipio_id")
     private Integer municipioId;
+    
     @Basic(optional = false)
     @Column(name = "nombre")
+    
+    
     private String nombre;
+    
     @OneToMany(mappedBy = "municipioId")
     private List<CodigoPostal> codigoPostalList;
+    
+    
     @JoinColumn(name = "departamento_id", referencedColumnName = "departamento_id")
     @ManyToOne
     private Departamento departamentoId;
