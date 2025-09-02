@@ -51,9 +51,11 @@ public class EducacionDetalle implements Serializable {
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
+    @Basic(optional = false)
     @Column(name = "titulo")
-    @Temporal(TemporalType.DATE)
-    private Date titulo;
+    private String titulo;
+    
+    
     @Column(name = "nivel_estudio")
     private String nivelEstudio;
     @JoinColumn(name = "educacion_id", referencedColumnName = "educacion_id")
@@ -104,11 +106,11 @@ public class EducacionDetalle implements Serializable {
         this.fechaFin = fechaFin;
     }
 
-    public Date getTitulo() {
+    public String getTitulo() {
         return titulo;
     }
 
-    public void setTitulo(Date titulo) {
+    public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 

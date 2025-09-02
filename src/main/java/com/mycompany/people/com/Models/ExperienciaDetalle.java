@@ -28,6 +28,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "experiencia_detalle")
 @NamedQueries({
+    @NamedQuery(name = "ExperienciaDetalle.BuscarDetalle",query="SELECT d FROM ExperienciaDetalle d WHERE d.experienciaId=:experiencia"),
     @NamedQuery(name = "ExperienciaDetalle.findAll", query = "SELECT e FROM ExperienciaDetalle e"),
     @NamedQuery(name = "ExperienciaDetalle.findByExperienciaDetalleId", query = "SELECT e FROM ExperienciaDetalle e WHERE e.experienciaDetalleId = :experienciaDetalleId"),
     @NamedQuery(name = "ExperienciaDetalle.findByEmpresa", query = "SELECT e FROM ExperienciaDetalle e WHERE e.empresa = :empresa"),

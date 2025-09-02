@@ -5,20 +5,17 @@
 package com.mycompany.people.com;
 
 
-import com.mycompany.people.com.Models.CodigoPostal;
+
 import com.mycompany.people.com.Models.Usuario;
 import com.mycompany.people.com.Repository.ClienteJpaController;
-import com.mycompany.people.com.Repository.CodigoPostalJpaController;
+
 import com.mycompany.people.com.Repository.PostulanteJpaController;
 import com.mycompany.people.com.Repository.UsuarioJpaController;
 import com.mycompany.people.com.Servicios.ServiciosCliente;
 import com.mycompany.people.com.Servicios.ServiciosPostulante;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
@@ -35,9 +32,11 @@ public class Inicio {
    }
     
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
-     
+       //  EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_People.com_jar_1.0-SNAPSHOTPU");
+    // Login l = new Login(emf);
+     //l.setVisible(true);
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_People.com_jar_1.0-SNAPSHOTPU");
+       EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_People.com_jar_1.0-SNAPSHOTPU");
         Inicio inicio = new Inicio(emf);
         inicio.menu();
         
@@ -85,6 +84,7 @@ public class Inicio {
                 }
         } catch (Exception e) {
                 System.out.println("Ingrese una opcion valida");
+                sc.nextLine();
             }
         }
         
@@ -162,12 +162,15 @@ public class Inicio {
                
                try {
                    
-               
+           System.out.println("Regresar x");
+           System.out.println("Regresar x");
            System.out.println("Usuario");
            String usuario = sc.next();
            
           System.out.println("Contrasena");
           String contrasena = sc.next();
+          
+                   
            UsuarioJpaController usuarioJpa = new UsuarioJpaController(emf);
           
          Integer rol=  usuarioJpa.login(usuario, contrasena);

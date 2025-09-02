@@ -18,6 +18,7 @@ import com.mycompany.people.com.Repository.OfertaEmpleoJpaController;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 
 public class ServiciosCliente {
@@ -198,7 +199,7 @@ while (!salir) {
     
   } }
 
-
+   
 
 
 
@@ -226,29 +227,82 @@ while (!salir) {
   
   public void Oferta() throws InterruptedException{
       OfertaEmpleoJpaController of = new OfertaEmpleoJpaController(emf);
-      
+      String puesto;
+      while (true) {          
       System.out.println("Puesto: ");
-      String puesto = sc.nextLine();
+          if (sc.hasNextInt()) {
+              System.out.println("Ingrese un puesto correcto");
+              sc.nextLine();
+              
+          }
+          else{
+          puesto = sc.nextLine();
+          break;
+          }
       
-      System.out.println("Cuantos Anos de experiencia: ");
-      int experiencia = sc.nextInt();
-      sc.nextLine();
+      }
+     int experiencia ;
+      while (true) {          
+          System.out.println("Cuantos Anos de experiencia: ");
+          if (!sc.hasNextInt()) {
+              System.out.println("ingrese anos validos");
+              sc.nextLine();
+          }else{
+           experiencia = sc.nextInt();
+             sc.nextLine();
+             break;
+          
+          }
       
+     
       
+      }
+       int edad;
+      while (true) {          
+          
       System.out.println("Ingrese la edad: ");
-      int edad = sc.nextInt();
+          if (!sc.hasNextInt()) {
+              System.out.println("ingrese un edad valida");
+              sc.nextLine();
+          }
+          else{
+          
+        edad = sc.nextInt();
       sc.nextLine();
+      break;
+          }
+      
+     
+      }
+      
       
       System.out.println("Seleccione el nivel Academico: ");
       NivelAcademico nivel =of.ElegirNivel();
       
-     
+           
+          
+      
       System.out.println("Descricion");
       String descripcion = sc.nextLine();
+       Integer salario;
+      while (true) {          
+          
       
       System.out.println("Ingrese el salrio:");
-      Integer salario = sc.nextInt();
+          if (!sc.hasNextLong()) {
+              System.out.println("Ingrese un numero valido");
+              sc.nextLine();
+              
+          }
+          else{
+          
+          salario = sc.nextInt();
       sc.nextLine();
+      break;
+          }
+      
+      }
+      
       
       System.out.println("ingrese el codigo Postal de la oferta:");
       int postal;
@@ -283,7 +337,7 @@ while (!salir) {
     
      System.out.println("Costos: ");
      Costo co= of.buscarCosto();
- 
+      System.out.println("ingresados");
  
  Vacante vacanteId = of.CrearVacante(experiencia, edad, nivel, puesto, descripcion, salario, codigoPostal);
  of.CrearOferta(cliente, vacanteId, co);

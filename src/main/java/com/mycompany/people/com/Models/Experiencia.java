@@ -26,6 +26,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "experiencia")
 @NamedQueries({
+    @NamedQuery(name ="Experiencia.buscarExperiencia", query="SELECT e FROM Experiencia e WHERE e.postulanteId=:postulante"),
     @NamedQuery(name = "Experiencia.findAll", query = "SELECT e FROM Experiencia e"),
     @NamedQuery(name = "Experiencia.findByExperienciaId", query = "SELECT e FROM Experiencia e WHERE e.experienciaId = :experienciaId"),
     @NamedQuery(name = "Experiencia.findByExperienciaTotal", query = "SELECT e FROM Experiencia e WHERE e.experienciaTotal = :experienciaTotal")})

@@ -57,7 +57,7 @@ public class OfertaEmpleoJpaController {
             System.out.println("Nivel Academico: seleccione");
             if (sc.hasNextInt()) {
                 opcion= sc.nextInt();
-                sc.nextLine();
+                
                 try {
                     
         nu = em.createNamedQuery("NivelAcademico.findByNivelAcademicoId", NivelAcademico.class)
@@ -161,7 +161,7 @@ for (Costo costo1 : costo) {
       
       of.setVacanteId(vacanteId);
       
-      of.setCostoId(buscarCosto());
+      of.setCostoId(costo);
       
       
         try {

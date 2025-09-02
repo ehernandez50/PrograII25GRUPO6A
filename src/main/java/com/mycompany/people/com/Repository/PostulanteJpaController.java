@@ -5,17 +5,25 @@
 package com.mycompany.people.com.Repository;
 
 import com.mycompany.people.com.Models.CodigoPostal;
+import com.mycompany.people.com.Models.Educacion;
+import com.mycompany.people.com.Models.EducacionDetalle;
+import com.mycompany.people.com.Models.Experiencia;
+import com.mycompany.people.com.Models.ExperienciaDetalle;
 import com.mycompany.people.com.Models.Genero;
+import com.mycompany.people.com.Models.NivelAcademico;
 import com.mycompany.people.com.Models.Postulante;
 import com.mycompany.people.com.Models.Usuario;
-import com.mycompany.people.com.Models.Vacante;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -28,8 +36,10 @@ public class PostulanteJpaController {
    this.emf=emf;
 
    }
+   
+   
     Scanner sc = new Scanner(System.in);
-    
+  
     public Postulante VerPerfil(Long usuarioId) {
     EntityManager em = emf.createEntityManager();
     Postulante postulante = null;
@@ -45,6 +55,7 @@ public class PostulanteJpaController {
     return postulante;
     }
     
+    
     public Postulante BuscarPerfil(Long postulanteBuscar) {
     EntityManager em = emf.createEntityManager();
     Postulante postulante = null;
@@ -59,6 +70,24 @@ public class PostulanteJpaController {
     }
     return postulante;
     }
+  public List<ExperienciaDetalle> BuscarExperiencia(Postulante postulante){
+        EntityManager em =emf.createEntityManager();
+        
+        Experiencia ex =  em.createNamedQuery("Experiencia.buscarExperiencia", Experiencia.class)
+                .setParameter("postulante", postulante)
+                .getSingleResult();
+        
+        
+        List<ExperienciaDetalle> exd = em.createNamedQuery("ExperienciaDetalle.BuscarDetalle", ExperienciaDetalle.class)
+                .setParameter("experiencia", ex)
+                .getResultList();
+        
+       
+       
+    return exd;
+    }
+    
+    
     
     public void actualizarPostulante(Postulante p) {
     EntityManager em = emf.createEntityManager();
@@ -70,41 +99,164 @@ public class PostulanteJpaController {
         em.close();
     }
     }
+     
+   
+    public void RegistrarPOstulante(String nombre,String Apellido,int dpi,int nit,int telefono,int teladicional,String nacionalidad, Usuario usuarioId, Genero generoId, CodigoPostal codPostalId){
+        EntityManager em =emf.createEntityManager();
+           Postulante p = new Postulante();
+        try {
+            
+       
     
+ 
     
+    p.setNombre(nombre);
+    p.setApellido(nombre);
+    p.setDpi(dpi);
+    p.setNit(nit);
+    p.setTelefono(telefono);
+    p.setTelefonoAdicional(teladicional);
+    p.setNacionalidad(nacionalidad);
+    p.setUsuarioId(usuarioId);
+    p.setGeneroId(generoId);
+    p.setCodPostalId(codPostalId);
     
-    
-    
-    
-    
-    
-    
-    
-    public List<Vacante> buscarVacantes() {
-    EntityManager em = emf.createEntityManager();
-    List<Vacante> vacantes = new ArrayList<>(); // inicializar vacía
-    try {
-        vacantes = em.createNamedQuery("Vacante.findAll", Vacante.class)
-                     .getResultList();
-    } finally {
-        em.close();
-    }
-
-    
-        for (Vacante vacante : vacantes) {
-            System.out.println("-------------------------");
-            System.out.println(vacante.getVacanteId());
-            System.out.println("Lugar: "+vacante.getCodPostalId().getMunicipioId().getNombre());
-            System.out.println("Puesto: "+vacante.getPuesto());
-            System.out.println("Descripcion: "+vacante.getDescripcion());
-            System.out.println("Nivel Academico: "+vacante.getRequisitoId().getNivelAcademicoId().getNombre());
-            System.out.println("Anos de Experiencia: "+vacante.getRequisitoId().getExpertenciaAnos()+ "anos");
-            System.out.println("Edad: "+vacante.getRequisitoId().getEdad());
-            System.out.println("-------------------------");
+    em.getTransaction().begin();
+    em.persist(p);
+    em.getTransaction().commit();
+            System.out.println("Usuario Registrado con exito");
+     } catch (Exception e) {
+         
+         em.getTransaction().rollback();
+                
         }
-
-    return vacantes;
-}
+        
+    
+    FormExperiencia(p);
+    FormEducacion(p);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    }
+  
+    public Experiencia RegistrarExperiencia(int total, Postulante postulante){
+    EntityManager em = emf.createEntityManager();
+     Experiencia ex  = new Experiencia();
+    ex.setExperienciaTotal(total);
+    ex.setPostulanteId(postulante);
+        try {
+            
+        
+    em.getTransaction().begin();
+    em.persist(ex);
+    em.getTransaction().commit();
+    
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        }
+        
+        return ex;
+    }
+    public void RegistroExperienciaDetallePostulante(Experiencia experienciaId,String empresa,String cargo,String funcion,Date fechaInicio,Date fechaFin){
+    
+    ExperienciaDetalle ed= new ExperienciaDetalle();
+    
+    EntityManager em = emf.createEntityManager();
+   
+        
+        ed.setExperienciaId(experienciaId);
+        ed.setEmpresa(empresa);
+        ed.setCargo(cargo);
+        ed.setFuncion(funcion);
+        ed.setFechaInicio(fechaInicio);
+        ed.setFechaFin(fechaFin);
+        
+        try {
+            em.getTransaction().begin();
+            em.persist(ed);
+            em.getTransaction().commit();
+        
+       
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            
+        }
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public Educacion RegistroEducacion(NivelAcademico nivelAcademicoId,Postulante postulanteId){
+        EntityManager em = emf.createEntityManager();
+        Educacion ed = new Educacion();
+        ed.setNivelAcademicoId(nivelAcademicoId);
+        ed.setPostulanteId(postulanteId);
+        
+        
+        try {
+            
+      
+        em.getTransaction().begin();
+        em.persist(ed);
+        em.getTransaction().commit();
+        
+          } catch (Exception e) {
+        }
+        return ed;
+        
+    }
+    public void RegistroEducacionDetalle(Educacion ed,String centroEducativo,String titulo,String nivelEstudio,Date fechaInicio,Date fechaFin){
+        
+        EntityManager em = emf.createEntityManager();
+        
+        EducacionDetalle edud= new EducacionDetalle();
+        
+        edud.setEducacionId(ed);
+        edud.setCentroEducativo(centroEducativo);
+        edud.setTitulo(titulo);
+        edud.setNivelEstudio(nivelEstudio);
+        edud.setFechaInicio(fechaInicio);
+        edud.setFechaFin(fechaFin);
+        
+        try {
+            em.getTransaction().begin();
+            em.persist(edud);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        }
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -332,53 +484,202 @@ while (true) {
         }
 
        
-      RegistrarPOstulante(nombre, apellido, postal, postal, telefono, telAdicional, nacionalidad, uscliente, g, codigoPostal);
-        break;
+        RegistrarPOstulante(nombre, apellido, postal, postal, telefono, telAdicional, nacionalidad, uscliente, g, codigoPostal);
+      
+      break;
     }
 }
-
-    
-    public void RegistrarPOstulante(String nombre,String Apellido,int dpi,int nit,int telefono,int teladicional,String nacionalidad, Usuario usuarioId, Genero generoId, CodigoPostal codPostalId){
-        EntityManager em =emf.createEntityManager();
-        try {
-            
-       
-    
-    Postulante p = new Postulante();
-    
-    p.setNombre(nombre);
-    p.setApellido(nombre);
-    p.setDpi(dpi);
-    p.setNit(nit);
-    p.setTelefono(telefono);
-    p.setTelefonoAdicional(teladicional);
-    p.setNacionalidad(nacionalidad);
-    p.setUsuarioId(usuarioId);
-    p.setGeneroId(generoId);
-    p.setCodPostalId(codPostalId);
-    
-    em.getTransaction().begin();
-    em.persist(p);
-    em.getTransaction().commit();
-            System.out.println("Usuario Registrado con exito");
-     } catch (Exception e) {
-         
-         em.getTransaction().rollback();
-                
-        }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public void FormExperiencia(Postulante postulante){
+    System.out.println("Experiencia==========================");
+    int total = leerEntero("Ingrese anos de experiencia: ");
+    Experiencia ex = RegistrarExperiencia(total, postulante);
+    FormExperienciaDetalle(ex);
     
     }
-    
+    public void FormExperienciaDetalle(Experiencia experiencia){
+            
+        
+        while (true) {                        
+        String empresa = leerTexto("Ingrese el nombre de la empresa: ");
+        String cargo = leerTexto("Ingrese el cargo: ");
+        String funcion = leerTexto("Ingrese la función: ");
+        Date fechaInicio = leerFecha("Ingrese la fecha de inicio (dd/MM/yyyy): ");
+        Date fechaFin = leerFecha("Ingrese la fecha de fin (dd/MM/yyyy): ");
+        
+        RegistroExperienciaDetallePostulante(experiencia,empresa, cargo, funcion, fechaInicio, fechaFin);
+        
+            System.out.println("1. Ingresar otra experiencia"
+                    + "2. salir");
+            if (sc.hasNextInt()) {
+                  int opcion = sc.nextInt();
+                 
+                if (opcion==2) {
+                    return;
+                }
+                if (opcion==1) {
+                    
+                    continue;
+                    
+                }
+                else{
+                
+                }
+               
+            }
+            else{
+            
+            
+            }
+           
+            
+        }
 
+}
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public void FormEducacion(Postulante postulante){
+      System.out.println(" Educacion===============================");
+        OfertaEmpleoJpaController of = new OfertaEmpleoJpaController(emf);
+         System.out.println("Ingrese su nivel de Estudio Actual: ");
+         NivelAcademico nivelAcademicoId = of.ElegirNivel();
+         sc.nextLine();
+      Educacion ed=   RegistroEducacion(nivelAcademicoId, postulante);
+      
+        FormEducacionDetalle(ed);
+      
+    }
+    public void FormEducacionDetalle(Educacion ed){
+     while (true) {            
+            
+       
+        String colegio = leerTexto("Ingrese el nombre del centro educativo: ");
+        String titulo = leerTexto("Ingrese el Titulo Obtenido: ");
+        String nivel = leerTexto("Nivel de estudios: ");
+        Date fechaInicio = leerFecha("Ingrese la fecha de inicio (dd/MM/yyyy): ");
+        Date fechaFin = leerFecha("Ingrese la fecha de fin (dd/MM/yyyy): ");
+        
+         RegistroEducacionDetalle(ed,colegio, titulo, nivel, fechaInicio, fechaFin);
+        
+            System.out.println("1. Ingresar otra experiencia"
+                    + "2. salir");
+            if (sc.hasNextInt()) {
+                  int opcion = sc.nextInt();
+                  
+                if (opcion==2) {
+                    return;
+                }
+                if (opcion==1) {
+
+                    continue;
+                    
+                }
+                else{
+                
+                }
+               
+            }
+            else{
+            
+            
+            }
+    
+    }}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    private  int leerEntero(String mensaje) {
+        int valor;
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                valor = Integer.parseInt(sc.nextLine());
+                return valor;
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Error: debe ingresar un número entero.");
+            }
+        }
+    }
+
+    private  String leerTexto(String mensaje) {
+        String texto;
+        do {
+            System.out.print(mensaje);
+            texto = sc.nextLine().trim();
+            if (texto.isEmpty()) {
+                System.out.println("❌ Error: el texto no puede estar vacío.");
+            }
+        } while (texto.isEmpty());
+        return texto;
+    }
+
+    private  Postulante leerPostulante(String mensaje) {
+        String nombre;
+        do {
+            System.out.print(mensaje);
+            nombre = sc.nextLine().trim();
+            if (nombre.isEmpty()) {
+                System.out.println("❌ Error: el nombre no puede estar vacío.");
+            }
+        } while (nombre.isEmpty());
+        return new Postulante();
+    }
+
+    private  Date leerFecha(String mensaje) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false); // para validar fechas reales
+        Date fecha = null;
+        while (fecha == null) {
+            System.out.print(mensaje);
+            String entrada = sc.nextLine().trim();
+            try {
+                fecha = sdf.parse(entrada);
+            } catch (ParseException e) {
+                System.out.println("❌ Error: formato inválido. Use dd/MM/yyyy");
+            }
+        }
+        return fecha;
+    }
 }
  

@@ -6,15 +6,13 @@ package com.mycompany.people.com.Servicios;
 
 
 import com.mycompany.people.com.Models.CodigoPostal;
+import com.mycompany.people.com.Models.Experiencia;
+import com.mycompany.people.com.Models.ExperienciaDetalle;
 import com.mycompany.people.com.Models.Postulante;
-import com.mycompany.people.com.Models.Usuario;
 import com.mycompany.people.com.Models.Vacante;
-import com.mycompany.people.com.Repository.ClienteJpaController;
-import com.mycompany.people.com.Repository.CodigoPostalJpaController;
 import com.mycompany.people.com.Repository.PostulanteJpaController;
-import com.mycompany.people.com.Repository.UsuarioJpaController;
-import java.math.BigInteger;
-import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -73,8 +71,8 @@ public class ServiciosPostulante {
     public void Perfil(){
         
         
-      Postulante perfil7=  perfil.VerPerfil(UsuarioID);
-        
+Postulante perfil7=  perfil.VerPerfil(UsuarioID);
+List<ExperienciaDetalle>experiencias = perfil.BuscarExperiencia(perfil7);
         
     if (perfil7 != null) {
 System.out.println("==================================================");
@@ -91,6 +89,15 @@ System.out.printf("| %-20s | %-25s |\n", "Nacionalidad", perfil7.getNacionalidad
 System.out.printf("| %-20s | %-25s |\n", "Código Postal", perfil7.getCodPostalId().getCodigo());
 System.out.printf("| %-20s | %-25s |\n", "Residencia", perfil7.getCodPostalId().getMunicipioId().getNombre());
 System.out.println("==================================================");
+
+        for (ExperienciaDetalle experiencia : experiencias) {
+            ExperienciaDetalle e = experiencia;
+            System.out.println(e.getEmpresa());
+            System.out.println(e.getCargo());            
+        }
+
+
+
 
 } else {
     System.out.println("No se encontró el perfil del postulante.");
@@ -208,12 +215,37 @@ while (!salir) {
     }}
     
     
-    public void buscarVacantes(){
-    
-    perfil.buscarVacantes();
     
     
+    public void buscarVacantes() {
+    EntityManager em = emf.createEntityManager();
+    List<Vacante> vacantes = new ArrayList<>(); // inicializar vacía
+    try {
+        vacantes = em.createNamedQuery("Vacante.findAll", Vacante.class)
+                     .getResultList();
+    } finally {
+        em.close();
     }
+
+    
+        for (Vacante vacante : vacantes) {
+            System.out.println("-------------------------");
+            System.out.println(vacante.getVacanteId());
+            System.out.println("Lugar: "+vacante.getCodPostalId().getMunicipioId().getNombre());
+            System.out.println("Puesto: "+vacante.getPuesto());
+            System.out.println("Descripcion: "+vacante.getDescripcion());
+            System.out.println("Nivel Academico: "+vacante.getRequisitoId().getNivelAcademicoId().getNombre());
+            System.out.println("Anos de Experiencia: "+vacante.getRequisitoId().getExpertenciaAnos()+ "anos");
+            System.out.println("Edad: "+vacante.getRequisitoId().getEdad());
+            System.out.println("-------------------------");
+        }
+
+    
+}
+    
+    
+    
+    
     
     
     
