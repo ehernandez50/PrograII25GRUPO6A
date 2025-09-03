@@ -91,7 +91,7 @@ em.getTransaction().commit();
     String user;
     while (true) {
         System.out.print("Nombre de usuario: ");
-        user = sc.next().trim();
+        user = sc.nextLine().trim();
         
         Usuario validacion= usuarioController.buscarUsuario(user);
         
@@ -106,7 +106,7 @@ em.getTransaction().commit();
     String pass ;
     while (true) {
         System.out.print("Contraseña: ");
-        pass = sc.next().trim();
+        pass = sc.nextLine().trim();
         if (pass.isEmpty()) {
             System.out.println("⚠️ La contraseña no puede estar vacía.");
             
@@ -120,7 +120,7 @@ em.getTransaction().commit();
     String correo;
     while (true) {
         System.out.print("Correo de Empresa: ");
-        correo = sc.next().trim();
+        correo = sc.nextLine().trim();
         
         if (correo.isEmpty() || !correo.contains("@")) {
             System.out.println("⚠️ Ingrese un correo válido.");
@@ -142,7 +142,7 @@ em.getTransaction().commit();
     String empresa ;
     while (true) {
         System.out.print("Nombre de empresa: ");
-        empresa = sc.next().trim();
+        empresa = sc.nextLine().trim();
         if (empresa.isEmpty()) {
             System.out.println("⚠️ La empresa no puede estar vacía.");
             
@@ -154,7 +154,7 @@ em.getTransaction().commit();
  String contacto;
     while (true) {
     System.out.print("Nombre Persona Contacto: ");
-    contacto = sc.next();
+    contacto = sc.nextLine();
  if (contacto.isEmpty()) {
             System.out.println("⚠️ La empresa no puede estar vacía.");
             

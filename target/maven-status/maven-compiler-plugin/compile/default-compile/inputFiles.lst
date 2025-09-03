@@ -1,9 +1,7 @@
-C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Empresa.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\exceptions\IllegalOrphanException.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\exceptions\NonexistentEntityException.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\exceptions\PreexistingEntityException.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Inicio.java
-C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Login.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Models\Administrador.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Models\Cliente.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Models\CodigoPostal.java
@@ -31,7 +29,6 @@ C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompan
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Models\UsuarioRol.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Models\Vacante.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\PeopleCom.java
-C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Postulante.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Repository\ClienteJpaController.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Repository\CodigoPostalJpaController.java
 C:\Users\Jovany\Documents\NetBeansProjects\People.com\src\main\java\com\mycompany\people\com\Repository\CostoJpaController.java

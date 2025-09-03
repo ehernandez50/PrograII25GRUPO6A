@@ -27,6 +27,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "educacion_detalle")
 @NamedQueries({
+    @NamedQuery(name = "EducacionDetalle.Buscardetalle", query = "SELECT d FROM EducacionDetalle d WHERE d.educacionId=:educacion"),
     @NamedQuery(name = "EducacionDetalle.findAll", query = "SELECT e FROM EducacionDetalle e"),
     @NamedQuery(name = "EducacionDetalle.findByEducacionDetalleId", query = "SELECT e FROM EducacionDetalle e WHERE e.educacionDetalleId = :educacionDetalleId"),
     @NamedQuery(name = "EducacionDetalle.findByCentroEducativo", query = "SELECT e FROM EducacionDetalle e WHERE e.centroEducativo = :centroEducativo"),

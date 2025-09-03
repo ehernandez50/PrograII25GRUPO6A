@@ -54,7 +54,7 @@
     <class>com.mycompany.people.com.Models.NivelAcademico</class>
     <class>com.mycompany.people.com.Models.Administrador</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=SistemaReclutadora;trustServerCertificate=true;encrypt=true"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=SistemaReclutadora7;trustServerCertificate=true;encrypt=true"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.password" value="TuPasswordSeguro123!"/>

@@ -26,6 +26,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "educacion")
 @NamedQueries({
+    @NamedQuery(name = "Educacion.buscar", query ="SELECT d FROM Educacion d WHERE d.postulanteId=:postulante"),
     @NamedQuery(name = "Educacion.findAll", query = "SELECT e FROM Educacion e"),
     @NamedQuery(name = "Educacion.findByEducacionId", query = "SELECT e FROM Educacion e WHERE e.educacionId = :educacionId")})
 public class Educacion implements Serializable {

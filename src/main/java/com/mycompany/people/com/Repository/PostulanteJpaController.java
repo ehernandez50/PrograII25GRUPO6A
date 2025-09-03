@@ -16,31 +16,29 @@ import com.mycompany.people.com.Models.Usuario;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 
-/**
- *
- * @author Jovany
- */
+
 public class PostulanteJpaController {
     
-     EntityManagerFactory emf;
+   EntityManagerFactory emf;
+   Scanner sc = new Scanner(System.in);
+   
    public PostulanteJpaController(EntityManagerFactory emf){
    this.emf=emf;
-
+   
    }
    
    
-    Scanner sc = new Scanner(System.in);
+   
   
-    public Postulante VerPerfil(Long usuarioId) {
+   public Postulante VerPerfil(Long usuarioId) {
     EntityManager em = emf.createEntityManager();
     Postulante postulante = null;
     try {
@@ -54,9 +52,7 @@ public class PostulanteJpaController {
     }
     return postulante;
     }
-    
-    
-    public Postulante BuscarPerfil(Long postulanteBuscar) {
+   public Postulante BuscarPerfil(Long postulanteBuscar) {
     EntityManager em = emf.createEntityManager();
     Postulante postulante = null;
     try {
@@ -70,7 +66,7 @@ public class PostulanteJpaController {
     }
     return postulante;
     }
-  public List<ExperienciaDetalle> BuscarExperiencia(Postulante postulante){
+   public List<ExperienciaDetalle> BuscarExperienciaDetalle(Postulante postulante){
         EntityManager em =emf.createEntityManager();
         
         Experiencia ex =  em.createNamedQuery("Experiencia.buscarExperiencia", Experiencia.class)
@@ -86,10 +82,69 @@ public class PostulanteJpaController {
        
     return exd;
     }
-    
-    
-    
-    public void actualizarPostulante(Postulante p) {
+   public ExperienciaDetalle experienciaDetalle(Long id){
+   EntityManager em = emf.createEntityManager();
+   
+   
+   ExperienciaDetalle e= em.createNamedQuery("ExperienciaDetalle.findByExperienciaDetalleId",ExperienciaDetalle.class)
+           .setParameter("experienciaDetalleId", id)
+           .getSingleResult();
+   
+   
+   return  e;
+   }
+   public Experiencia BuscarExperiencia(Postulante postulante){
+   
+    EntityManager em =emf.createEntityManager();
+        
+        Experiencia ex =  em.createNamedQuery("Experiencia.buscarExperiencia", Experiencia.class)
+                .setParameter("postulante", postulante)
+                .getSingleResult();
+        
+       return ex;
+   
+   
+   }
+   public Educacion buscarEducacion(Postulante postulante){
+    EntityManager em =emf.createEntityManager();
+        
+        Educacion ed =  em.createNamedQuery("Educacion.buscar", Educacion.class)
+                .setParameter("postulante", postulante)
+                .getSingleResult();
+   return ed;
+   }
+   public EducacionDetalle BuscarEducacionD(Long id) {
+    EntityManager em =emf.createEntityManager();
+        
+        EducacionDetalle ed =  em.createNamedQuery("EducacionDetalle.findByEducacionDetalleId", EducacionDetalle.class)
+                .setParameter("educacionDetalleId", id)
+                .getSingleResult();
+        return ed;
+   }
+   public List<EducacionDetalle> BuscarEducacionDetalle(Postulante postulante){
+        EntityManager em =emf.createEntityManager();
+        
+        Educacion ed =  em.createNamedQuery("Educacion.buscar", Educacion.class)
+                .setParameter("postulante", postulante)
+                .getSingleResult();
+        
+        
+        List<EducacionDetalle> exd = em.createNamedQuery("EducacionDetalle.Buscardetalle", EducacionDetalle.class)
+                .setParameter("educacion", ed)
+                .getResultList();
+        
+       
+       
+    return exd;
+  
+  
+  
+  
+  } 
+  
+   
+   
+   public void actualizarPostulante(Postulante p) {
     EntityManager em = emf.createEntityManager();
     try {
         em.getTransaction().begin();
@@ -99,9 +154,46 @@ public class PostulanteJpaController {
         em.close();
     }
     }
-     
+   public void ActulizarExperienciaDetalle(ExperienciaDetalle e){
+    
+      EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        em.merge(e); 
+        em.getTransaction().commit();
+    } finally {
+        em.close();
+    }
+    }
+   public void ActualizrEducacionDetalle(EducacionDetalle ed){
    
-    public void RegistrarPOstulante(String nombre,String Apellido,int dpi,int nit,int telefono,int teladicional,String nacionalidad, Usuario usuarioId, Genero generoId, CodigoPostal codPostalId){
+     EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        em.merge(ed); 
+        em.getTransaction().commit();
+    } finally {
+        em.close();
+    }
+   }
+   public void ActualizarEducacion(Educacion ed){
+   
+     EntityManager em = emf.createEntityManager();
+    try {
+        em.getTransaction().begin();
+        em.merge(ed); 
+        em.getTransaction().commit();
+    } finally {
+        em.close();
+    }
+   
+   }
+   
+   
+   
+   
+   
+   public void RegistrarPOstulante(String nombre,String Apellido,int dpi,int nit,int telefono,int teladicional,String nacionalidad, Usuario usuarioId, Genero generoId, CodigoPostal codPostalId){
         EntityManager em =emf.createEntityManager();
            Postulante p = new Postulante();
         try {
@@ -145,8 +237,7 @@ public class PostulanteJpaController {
     
     
     }
-  
-    public Experiencia RegistrarExperiencia(int total, Postulante postulante){
+   public Experiencia RegistrarExperiencia(int total, Postulante postulante){
     EntityManager em = emf.createEntityManager();
      Experiencia ex  = new Experiencia();
     ex.setExperienciaTotal(total);
@@ -164,7 +255,7 @@ public class PostulanteJpaController {
         
         return ex;
     }
-    public void RegistroExperienciaDetallePostulante(Experiencia experienciaId,String empresa,String cargo,String funcion,Date fechaInicio,Date fechaFin){
+   public void RegistroExperienciaDetallePostulante(Experiencia experienciaId,String empresa,String cargo,String funcion,Date fechaInicio,Date fechaFin){
     
     ExperienciaDetalle ed= new ExperienciaDetalle();
     
@@ -191,19 +282,7 @@ public class PostulanteJpaController {
         
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public Educacion RegistroEducacion(NivelAcademico nivelAcademicoId,Postulante postulanteId){
+   public Educacion RegistroEducacion(NivelAcademico nivelAcademicoId,Postulante postulanteId){
         EntityManager em = emf.createEntityManager();
         Educacion ed = new Educacion();
         ed.setNivelAcademicoId(nivelAcademicoId);
@@ -222,7 +301,7 @@ public class PostulanteJpaController {
         return ed;
         
     }
-    public void RegistroEducacionDetalle(Educacion ed,String centroEducativo,String titulo,String nivelEstudio,Date fechaInicio,Date fechaFin){
+   public void RegistroEducacionDetalle(Educacion ed,String centroEducativo,String titulo,String nivelEstudio,Date fechaInicio,Date fechaFin){
         
         EntityManager em = emf.createEntityManager();
         
@@ -247,20 +326,31 @@ public class PostulanteJpaController {
         
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public void FormPostulante() throws InterruptedException, NoSuchAlgorithmException {
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   public void FormPostulante() throws InterruptedException, NoSuchAlgorithmException {
         EntityManager em = emf.createEntityManager();
     while (true) {
         UsuarioJpaController usuarioController = new UsuarioJpaController(emf);
@@ -489,14 +579,14 @@ while (true) {
       break;
     }
 }
-    public void FormExperiencia(Postulante postulante){
+   public void FormExperiencia(Postulante postulante){
     System.out.println("Experiencia==========================");
     int total = leerEntero("Ingrese anos de experiencia: ");
     Experiencia ex = RegistrarExperiencia(total, postulante);
     FormExperienciaDetalle(ex);
     
     }
-    public void FormExperienciaDetalle(Experiencia experiencia){
+   public void FormExperienciaDetalle(Experiencia experiencia){
             
         
         while (true) {                        
@@ -535,23 +625,7 @@ while (true) {
         }
 
 }
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public void FormEducacion(Postulante postulante){
+   public void FormEducacion(Postulante postulante){
       System.out.println(" Educacion===============================");
         OfertaEmpleoJpaController of = new OfertaEmpleoJpaController(emf);
          System.out.println("Ingrese su nivel de Estudio Actual: ");
@@ -562,7 +636,7 @@ while (true) {
         FormEducacionDetalle(ed);
       
     }
-    public void FormEducacionDetalle(Educacion ed){
+   public void FormEducacionDetalle(Educacion ed){
      while (true) {            
             
        
@@ -598,7 +672,6 @@ while (true) {
             }
     
     }}
-    
     
     
     
@@ -666,7 +739,7 @@ while (true) {
         return new Postulante();
     }
 
-    private  Date leerFecha(String mensaje) {
+    public  Date leerFecha(String mensaje) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setLenient(false); // para validar fechas reales
         Date fecha = null;

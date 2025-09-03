@@ -32,9 +32,7 @@ public class Inicio {
    }
     
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
-       //  EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_People.com_jar_1.0-SNAPSHOTPU");
-    // Login l = new Login(emf);
-     //l.setVisible(true);
+   
 
        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_People.com_jar_1.0-SNAPSHOTPU");
         Inicio inicio = new Inicio(emf);
@@ -160,18 +158,30 @@ public class Inicio {
            
            while (true) {               
                
-               try {
+            
                    
-           System.out.println("Regresar x");
-           System.out.println("Regresar x");
-           System.out.println("Usuario");
-           String usuario = sc.next();
+          
            
+           System.out.println("1. Sing In\n"
+                           +          "2. Salir");  
+            
+                   if (sc.hasNextInt()) {
+                       int op = sc.nextInt();
+                       
+                       if (op==1||op==2) {
+                           if (op==1) {
+                               
+                      try {            
+                                  System.out.println("Usuario");
+          String usuario = sc.next();
+          
+          
           System.out.println("Contrasena");
           String contrasena = sc.next();
           
-                   
-           UsuarioJpaController usuarioJpa = new UsuarioJpaController(emf);
+                  
+          
+         UsuarioJpaController usuarioJpa = new UsuarioJpaController(emf);
           
          Integer rol=  usuarioJpa.login(usuario, contrasena);
          Usuario userId = usuarioJpa.buscarUsuario(usuario);
@@ -183,7 +193,6 @@ public class Inicio {
                     
                        switch (rol) {
                            case 3:
-                               
                                ServiciosCliente cliente = new ServiciosCliente(emf,userId);
                                cliente.AppCliente();
                                break;
@@ -212,7 +221,31 @@ public class Inicio {
            } catch (Exception e) {
                    System.out.println(e);
                    System.out.println("El usuario no existe");
-               }
+               } 
+                               
+                               
+                               
+                               
+                           }
+                           if (op==2) {
+                               break;
+                               
+                           }
+                           
+                       }
+                       else{
+                           System.out.println("Vuelva a elegir");
+                           sc.nextLine();
+                           continue;
+                       }
+                   }
+                   else{
+                   sc.nextLine();
+                   }
+          
+                   
+                   
+      
            }
     
     }
