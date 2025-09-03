@@ -21,7 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 
-public class ServiciosCliente {
+public class AppCliente {
     
     
     Scanner sc = new Scanner(System.in);
@@ -32,7 +32,7 @@ public class ServiciosCliente {
     
     
 
-    public ServiciosCliente(EntityManagerFactory emf, Usuario id) throws InterruptedException {
+    public AppCliente(EntityManagerFactory emf, Usuario id) throws InterruptedException {
         this.emf = emf; 
         this.id = id;
         

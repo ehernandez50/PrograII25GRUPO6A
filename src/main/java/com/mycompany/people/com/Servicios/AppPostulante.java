@@ -27,7 +27,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 
-public class ServiciosPostulante {
+public class AppPostulante {
     
     
     Scanner sc = new Scanner(System.in);
@@ -39,7 +39,7 @@ public class ServiciosPostulante {
     
     
     
-    public ServiciosPostulante(Long UsuarioID){
+    public AppPostulante(Long UsuarioID){
     this.UsuarioID =UsuarioID;
     this.pos=postulanteController.BuscarPerfil(UsuarioID);
     this.educacion=postulanteController.buscarEducacion(pos);

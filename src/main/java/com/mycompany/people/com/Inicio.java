@@ -11,8 +11,8 @@ import com.mycompany.people.com.Repository.ClienteJpaController;
 
 import com.mycompany.people.com.Repository.PostulanteJpaController;
 import com.mycompany.people.com.Repository.UsuarioJpaController;
-import com.mycompany.people.com.Servicios.ServiciosCliente;
-import com.mycompany.people.com.Servicios.ServiciosPostulante;
+import com.mycompany.people.com.Servicios.AppCliente;
+import com.mycompany.people.com.Servicios.AppPostulante;
 import java.util.Scanner;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -193,11 +193,11 @@ public class Inicio {
                     
                        switch (rol) {
                            case 3:
-                               ServiciosCliente cliente = new ServiciosCliente(emf,userId);
+                               AppCliente cliente = new AppCliente(emf,userId);
                                cliente.AppCliente();
                                break;
                                case 2:
-                                   ServiciosPostulante p = new ServiciosPostulante(userId.getUsuarioId());
+                                   AppPostulante p = new AppPostulante(userId.getUsuarioId());
                                    p.PostulanteApp();
                                
                                break;

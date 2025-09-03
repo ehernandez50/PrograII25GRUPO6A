@@ -66,7 +66,7 @@ public class UsuarioJpaController {
     
     
     
-public  void register(String username, String password, String correo, int roles) throws NoSuchAlgorithmException{
+public  void CrearUsuario(String username, String password, String correo, int roles) throws NoSuchAlgorithmException{
 
 EntityManager em = emf.createEntityManager();
 

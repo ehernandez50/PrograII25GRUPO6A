@@ -402,7 +402,7 @@ public class PostulanteJpaController {
 
     int rolCliente = 2; 
     Thread.sleep(1000);
-    usuarioController.register(user, pass, correo, rolCliente);
+    usuarioController.CrearUsuario(user, pass, correo, rolCliente);
     
     Thread.sleep(1000);
     Usuario uscliente = usuarioController.buscarUsuario(user);

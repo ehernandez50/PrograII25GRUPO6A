@@ -133,7 +133,7 @@ em.getTransaction().commit();
 
     int rolCliente = 3; 
     Thread.sleep(1000);
-    usuarioController.register(user, pass, correo, rolCliente);
+    usuarioController.CrearUsuario(user, pass, correo, rolCliente);
     
     Thread.sleep(1000);
     Usuario uscliente = usuarioController.buscarUsuario(user);
