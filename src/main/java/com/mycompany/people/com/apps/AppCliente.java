@@ -7,6 +7,8 @@ package com.mycompany.people.com.apps;
 import com.mycompany.people.com.Models.Cliente;
 import com.mycompany.people.com.Models.CodigoPostal;
 import com.mycompany.people.com.Models.Costo;
+import com.mycompany.people.com.Models.Factura;
+import com.mycompany.people.com.Models.FacturaDetalle;
 import com.mycompany.people.com.Models.NivelAcademico;
 import com.mycompany.people.com.Models.OfertaEmpleo;
 import com.mycompany.people.com.Models.Usuario;
@@ -16,12 +18,10 @@ import com.mycompany.people.com.servicios.ServiciosCliente;
 import com.mycompany.people.com.servicios.ServiciosCodigoPostal;
 import com.mycompany.people.com.servicios.ServiciosFactura;
 import com.mycompany.people.com.servicios.ServiciosOfertaEmpleo;
-import com.sun.source.tree.Tree;
+import java.util.Date;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.sound.midi.Soundbank;
 
 
 public class AppCliente {
@@ -345,7 +345,11 @@ while (!salir) {
  
  Vacante vacanteId = of.CrearVacante(experiencia, edad, nivel, puesto, descripcion, salario, codigoPostal);
  OfertaEmpleo oferta =of.CrearOferta(cliente, vacanteId, co);
- ServiciosFactura factura = new ServiciosFactura(emf);
+ ServiciosFactura servfactura = new ServiciosFactura(emf);
+ Factura factura =servfactura.Generar(cliente,  co.getPrecio(),new Date());
+ 
+ FacturaDetalle facturaDetalle = servfactura.GenerarDetalleFactura(oferta, factura);
+ 
  
   System.out.println("Procesando el Pago......");
   Thread.sleep(1000);

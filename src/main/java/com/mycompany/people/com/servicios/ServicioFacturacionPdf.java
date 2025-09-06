@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.people.com.servicios;
 
 import com.itextpdf.text.BaseColor;
@@ -12,14 +9,13 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.mycompany.people.com.Models.Cliente;
+
 import com.mycompany.people.com.Models.OfertaEmpleo;
-import com.mycompany.people.com.Models.Usuario;
+
 import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
 
 /**
  *

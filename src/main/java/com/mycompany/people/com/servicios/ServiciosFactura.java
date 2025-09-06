@@ -29,10 +29,10 @@ public class ServiciosFactura {
     }
     
     
-    public Factura Generar(Cliente cliente,int Total, Date fecha){
+    public Factura Generar(Cliente cliente,Integer Total, Date fecha){
     
        EntityManager em = emf.createEntityManager();
-       
+         
         Factura  f = new Factura();
         Long total = (long)Total;
         f.setClienteId(cliente);
