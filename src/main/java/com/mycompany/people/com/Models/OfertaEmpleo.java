@@ -28,7 +28,7 @@ import javax.persistence.TemporalType;
 @Table(name = "oferta_empleo")
 @NamedQueries({
     @NamedQuery(name = "OfertaEmpleo.buscarOfertas", query = "SELECT o FROM OfertaEmpleo o WHERE o.clienteId=:cliente"),
-    @NamedQuery(name = "OfertaEmpleo.borrar", query = "DELETE FROM OfertaEmpleo o WHERE o.ofertaEmpleoId = :id"),
+    @NamedQuery(name = "OfertaEmpleo.borrar", query = " UPDATE OfertaEmpleo o   SET o.status=FALSE WHERE o.ofertaEmpleoId = :id"),
     @NamedQuery(name = "OfertaEmpleo.findAll", query = "SELECT o FROM OfertaEmpleo o"),
     @NamedQuery(name = "OfertaEmpleo.findByOfertaEmpleoId", query = "SELECT o FROM OfertaEmpleo o WHERE o.ofertaEmpleoId = :ofertaEmpleoId"),
     @NamedQuery(name = "OfertaEmpleo.findByFecha", query = "SELECT o FROM OfertaEmpleo o WHERE o.fecha = :fecha")})
@@ -52,6 +52,9 @@ public class OfertaEmpleo implements Serializable {
     @JoinColumn(name = "vacante_id", referencedColumnName = "vacante_id")
     @ManyToOne
     private Vacante vacanteId;
+    @Basic(optional = false)
+    @Column(name = "status")
+    private boolean status;
 
     public OfertaEmpleo() {
     }
@@ -98,6 +101,13 @@ public class OfertaEmpleo implements Serializable {
 
     public void setVacanteId(Vacante vacanteId) {
         this.vacanteId = vacanteId;
+    }
+   public boolean getstatus() {
+        return status;
+    }
+
+    public void setstatus(boolean status) {
+        this.status = status;
     }
 
     @Override

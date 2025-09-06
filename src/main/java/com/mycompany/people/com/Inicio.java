@@ -1,65 +1,60 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.people.com;
 
 
 
-import com.mycompany.people.com.Models.Usuario;
-import com.mycompany.people.com.Repository.ClienteJpaController;
 
-import com.mycompany.people.com.Repository.PostulanteJpaController;
-import com.mycompany.people.com.Repository.UsuarioJpaController;
-import com.mycompany.people.com.Servicios.AppCliente;
-import com.mycompany.people.com.Servicios.AppPostulante;
+
+
+
+import com.mycompany.people.com.Models.Usuario;
+import com.mycompany.people.com.apps.AppAdministrador;
+import com.mycompany.people.com.servicios.ServiciosCliente;
+import com.mycompany.people.com.servicios.ServiciosPostulante;
+import com.mycompany.people.com.servicios.ServiciosUsuario;
+import com.mycompany.people.com.apps.AppCliente;
+import com.mycompany.people.com.apps.AppPostulante;
+import com.mycompany.people.com.servicios.register;
+import java.util.Date;
 import java.util.Scanner;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/**
- *
- * @author Jovany
- */
+
 public class Inicio {
     
      EntityManagerFactory emf;
+     Scanner sc= new Scanner(System.in);
    
    public Inicio(EntityManagerFactory emf){
    this.emf=emf;
 
    }
     
-    public static void main(String[] args) throws UnsupportedLookAndFeelException {
-   
-
+    
+   public static void main(String[] args) throws UnsupportedLookAndFeelException {
        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_People.com_jar_1.0-SNAPSHOTPU");
         Inicio inicio = new Inicio(emf);
         inicio.menu();
-        
-        
-        
-    }
-    
-    
-    
-    
-    
-    
-    
    
    
+   }
+ 
+
+       
     
-    Scanner sc= new Scanner(System.in);
     
-    
-    public  void menu(){
+      
+
+    void menu(){
         while (true) {            
             
             try {
                 
-            
+         System.out.println("╔══════════════════╗");
+        System.out.println("║   MENÚ PRINCIPAL ║");
+        System.out.println("╚══════════════════╝");
         System.out.println("-------------------------------------");
         System.out.println("1. Registrase");
         System.out.println("2. Iniciar Sesion");
@@ -91,9 +86,8 @@ public class Inicio {
         
         
     }
-    
-    
-       void MenuRegistrarse(){
+   
+    void MenuRegistrarse(){
         
         while (true) {            
             
@@ -109,13 +103,13 @@ public class Inicio {
         
             switch (opcion) {
                     case 1:
-                        PostulanteJpaController p = new PostulanteJpaController(emf);
+                        ServiciosPostulante p = new ServiciosPostulante(emf);
                         p.FormPostulante();
                         
                         
                     break;
                     case 2:
-                      ClienteJpaController servicios = new ClienteJpaController(emf);
+                      ServiciosCliente servicios = new ServiciosCliente(emf);
                       servicios.FormCliente();
                       
                     break;
@@ -123,6 +117,9 @@ public class Inicio {
                     
                     case 3:
                         return;
+                      
+                        
+                    
                     
                    
                 default:
@@ -152,27 +149,18 @@ public class Inicio {
             
     }
     
-    
-    
-       void IniciarSesion(){
+    void IniciarSesion(){
            
            while (true) {               
-               
+            System.out.println("1. Sing In\n"
+                           +   "2. Salir");  
             
-                   
-          
-           
-           System.out.println("1. Sing In\n"
-                           +          "2. Salir");  
-            
-                   if (sc.hasNextInt()) {
-                       int op = sc.nextInt();
-                       
-                       if (op==1||op==2) {
-                           if (op==1) {
-                               
-                      try {            
-                                  System.out.println("Usuario");
+            if (sc.hasNextInt()) {
+            int op = sc.nextInt();
+            if (op==1||op==2) {
+            if (op==1) {
+            try {            
+          System.out.println("Usuario");
           String usuario = sc.next();
           
           
@@ -181,24 +169,42 @@ public class Inicio {
           
                   
           
-         UsuarioJpaController usuarioJpa = new UsuarioJpaController(emf);
+         ServiciosUsuario usuarioJpa = new ServiciosUsuario(emf);
           
          Integer rol=  usuarioJpa.login(usuario, contrasena);
-         Usuario userId = usuarioJpa.buscarUsuario(usuario);
+         Usuario UsuarioLogeado = usuarioJpa.buscarUsuario(usuario);
          
-                   System.out.println(rol);
-                   System.out.println("");
+                   
                    
                    if (rol !=null) {
                     
                        switch (rol) {
                            case 3:
-                               AppCliente cliente = new AppCliente(emf,userId);
+                               AppCliente cliente = new AppCliente(emf,UsuarioLogeado);
                                cliente.AppCliente();
+                               
+                               register r2 = new register(emf);
+                               r2.log(UsuarioLogeado, "login", new Date(), "El usuario :"+UsuarioLogeado.getNombreUsuario()+" se logeo"+ " como cliente");
+                                   
+                               
                                break;
                                case 2:
-                                   AppPostulante p = new AppPostulante(userId.getUsuarioId());
+                                   AppPostulante p = new AppPostulante(UsuarioLogeado.getUsuarioId());
                                    p.PostulanteApp();
+                                   register r3 = new register(emf);
+                                 r3.log(UsuarioLogeado, "login ", new Date(),"El usuario :"+UsuarioLogeado.getNombreUsuario()+" se logeo"+" como postulante");
+                                   
+                                   
+                               
+                               break;
+                               case 1:
+                                   AppAdministrador admin = new AppAdministrador(emf);
+                                               register r = new register(emf);
+                                 r.log(UsuarioLogeado, "login ", new Date(), "El usuario :"+UsuarioLogeado.getNombreUsuario()+" se logeo");
+                                   
+                                   admin.AppAdministrador();
+                              
+                    
                                
                                break;
                            default:
@@ -213,14 +219,14 @@ public class Inicio {
                    }
                    else{
                        
-                       System.out.println("El usuario no existe");
+                   //    System.out.println("El usuario no existe");
                    }
          
            
                    
            } catch (Exception e) {
                    System.out.println(e);
-                   System.out.println("El usuario no existe");
+                 //  System.out.println("El usuario no existe");
                } 
                                
                                

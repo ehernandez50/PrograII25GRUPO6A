@@ -30,8 +30,7 @@ import javax.persistence.TemporalType;
 @Table(name = "administrador")
 @NamedQueries({
     @NamedQuery(name = "Administrador.findAll", query = "SELECT a FROM Administrador a"),
-    @NamedQuery(name = "Administrador.findByAdministradorId", query = "SELECT a FROM Administrador a WHERE a.administradorId = :administradorId"),
-    @NamedQuery(name = "Administrador.findByUsuarioAdministradorId", query = "SELECT a FROM Administrador a WHERE a.usuarioAdministradorId = :usuarioAdministradorId"),
+  
     @NamedQuery(name = "Administrador.findByCreacion", query = "SELECT a FROM Administrador a WHERE a.creacion = :creacion"),
     @NamedQuery(name = "Administrador.findByPuestoEmpleado", query = "SELECT a FROM Administrador a WHERE a.puestoEmpleado = :puestoEmpleado"),
     @NamedQuery(name = "Administrador.findByCodEmpleado", query = "SELECT a FROM Administrador a WHERE a.codEmpleado = :codEmpleado")})
@@ -43,17 +42,20 @@ public class Administrador implements Serializable {
     @Basic(optional = false)
     @Column(name = "administrador_id")
     private Integer administradorId;
-    @Column(name = "usuario_administrador_id")
-    private Integer usuarioAdministradorId;
+    
+    
+    
     @Column(name = "creacion")
     @Temporal(TemporalType.DATE)
     private Date creacion;
+    
     @Column(name = "puesto_empleado")
     private String puestoEmpleado;
     @Column(name = "cod_empleado")
     private Integer codEmpleado;
-    @OneToMany(mappedBy = "usuarioAdministradorId")
-    private List<Factura> facturaList;
+    
+
+    
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     @ManyToOne
     private Usuario usuarioId;
@@ -73,13 +75,7 @@ public class Administrador implements Serializable {
         this.administradorId = administradorId;
     }
 
-    public Integer getUsuarioAdministradorId() {
-        return usuarioAdministradorId;
-    }
-
-    public void setUsuarioAdministradorId(Integer usuarioAdministradorId) {
-        this.usuarioAdministradorId = usuarioAdministradorId;
-    }
+ 
 
     public Date getCreacion() {
         return creacion;
@@ -105,13 +101,6 @@ public class Administrador implements Serializable {
         this.codEmpleado = codEmpleado;
     }
 
-    public List<Factura> getFacturaList() {
-        return facturaList;
-    }
-
-    public void setFacturaList(List<Factura> facturaList) {
-        this.facturaList = facturaList;
-    }
 
     public Usuario getUsuarioId() {
         return usuarioId;

@@ -40,11 +40,17 @@ public class LogSesion implements Serializable {
     @Basic(optional = false)
     @Column(name = "log_sesion_id")
     private Long logSesionId;
+    
+    
     @Column(name = "evento")
     private String evento;
     @Column(name = "tiempo")
     @Temporal(TemporalType.TIMESTAMP)
     private Date tiempo;
+    @Column(name ="ip")
+    private String ip;
+   
+    
     @Column(name = "detalle")
     private String detalle;
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
@@ -93,10 +99,20 @@ public class LogSesion implements Serializable {
     public Usuario getUsuarioId() {
         return usuarioId;
     }
+     public String getip() {
+        return ip;
+    }
 
     public void setUsuarioId(Usuario usuarioId) {
         this.usuarioId = usuarioId;
     }
+    
+    
+    
+      public void setIp(String usuarioId) {
+        this.ip = usuarioId;
+    }
+      
 
     @Override
     public int hashCode() {

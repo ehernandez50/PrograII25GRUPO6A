@@ -48,9 +48,8 @@ public class Factura implements Serializable {
     private Long total;
     @OneToMany(mappedBy = "facturaId")
     private List<FacturaDetalle> facturaDetalleList;
-    @JoinColumn(name = "usuario_administrador_id", referencedColumnName = "administrador_id")
-    @ManyToOne
-    private Administrador usuarioAdministradorId;
+
+    
     @JoinColumn(name = "cliente_id", referencedColumnName = "cliente_id")
     @ManyToOne
     private Cliente clienteId;
@@ -94,13 +93,7 @@ public class Factura implements Serializable {
         this.facturaDetalleList = facturaDetalleList;
     }
 
-    public Administrador getUsuarioAdministradorId() {
-        return usuarioAdministradorId;
-    }
-
-    public void setUsuarioAdministradorId(Administrador usuarioAdministradorId) {
-        this.usuarioAdministradorId = usuarioAdministradorId;
-    }
+  
 
     public Cliente getClienteId() {
         return clienteId;

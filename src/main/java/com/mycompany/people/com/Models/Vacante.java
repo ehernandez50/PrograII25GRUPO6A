@@ -26,7 +26,7 @@ import javax.persistence.Table;
 @NamedQueries({
      @NamedQuery(name = "Vacante.findAll", query = "SELECT v FROM Vacante v"),
   
-    @NamedQuery(name = "Vacante.borrar", query = "DELETE FROM Vacante WHERE vacanteId=:id"),
+    @NamedQuery(name = "Vacante.borrar", query = "UPDATE Vacante v SET v.status= FALSE WHERE v.vacanteId=:id"),
     @NamedQuery(name = "Vacante.findAll", query = "SELECT v FROM Vacante v"),
     @NamedQuery(name = "Vacante.findByVacanteId", query = "SELECT v FROM Vacante v WHERE v.vacanteId = :vacanteId"),
     @NamedQuery(name = "Vacante.findByPuesto", query = "SELECT v FROM Vacante v WHERE v.puesto = :puesto"),
