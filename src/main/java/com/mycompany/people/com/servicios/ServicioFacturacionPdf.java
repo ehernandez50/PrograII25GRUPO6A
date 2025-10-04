@@ -9,9 +9,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import com.mycompany.people.com.Models.OfertaEmpleo;
-
 import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
@@ -23,16 +21,26 @@ import java.util.List;
  */
 public class ServicioFacturacionPdf {
     
-   
+    public static void main(String[] args) {
+        
+        
+    }
     public void factura(List<OfertaEmpleo> ofertas){
         
         
      Object[][] matrizOfertas = new Object[ofertas.size()][4]; 
             double subtotal = 0;
            
-        
+        String cliente="" ;
+        String lugar ="";
+        Long cod=Long.parseLong("8");
         for (int i = 0; i < ofertas.size(); i++) {
+            
             OfertaEmpleo oferta = ofertas.get(i);
+            
+            cliente = oferta.getClienteId().getEmpresa();
+            lugar = oferta.getClienteId().getCodPostal().getMunicipioId().getNombre();
+            cod = oferta.getOfertaEmpleoId();
             matrizOfertas[i][0] = oferta.getOfertaEmpleoId();
             matrizOfertas[i][1] = oferta.getVacanteId().getPuesto();
             matrizOfertas[i][2] = "Q. "+oferta.getCostoId().getPrecio();
@@ -50,14 +58,14 @@ public class ServicioFacturacionPdf {
             document.add(encabezado);
             String noFactura="";
 
-            document.add(new Paragraph("\nFactura #: 001       Fecha: " + new Date() + "\n\n"));
+            document.add(new Paragraph("\nFactura #: "+cod+"       Fecha: " + new Date() + "\n\n"));
 
             
-            document.add(new Paragraph("Cliente: Juan Pérez"));
-            document.add(new Paragraph("Dirección: Av. Siempre Viva 742\n\n"));
+            document.add(new Paragraph("Cliente: "+ cliente));
+            document.add(new Paragraph("Dirección: "+lugar+" \n\n"));
 
             
-            PdfPTable tabla = new PdfPTable(4); // 4 columnas
+            PdfPTable tabla = new PdfPTable(4);
             tabla.setWidthPercentage(100);
             tabla.setSpacingBefore(10f);
             tabla.setSpacingAfter(10f);
@@ -67,7 +75,7 @@ public class ServicioFacturacionPdf {
             for (String col : encabezados) {
                 PdfPCell cell = new PdfPCell(new Phrase(col));
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                cell.setBackgroundColor(BaseColor.LIGHT_GRAY); // color gris claro
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY); //
                 cell.setPadding(5f);
                 tabla.addCell(cell);
             }
@@ -76,12 +84,15 @@ public class ServicioFacturacionPdf {
 
            
 BaseColor colorFila = BaseColor.WHITE;
-for (int i = 0; i < matrizOfertas.length; i++) {
+for (int i = 0; i < matrizOfertas.length; i++) 
+{
     Object[] fila = matrizOfertas[i];
-    colorFila = (i % 2 == 0) ? BaseColor.WHITE : new BaseColor(224, 235, 255); // azul muy claro
+    
+   // colorFila = (i % 2 == 0) ? BaseColor.WHITE : new BaseColor(224, 235, 255); 
 
     
     for (Object dato : fila) {
+        
         PdfPCell cell = new PdfPCell(new Phrase(dato.toString()));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setBackgroundColor(colorFila);
@@ -89,7 +100,7 @@ for (int i = 0; i < matrizOfertas.length; i++) {
         tabla.addCell(cell);
         
     }}
- double impuestos = subtotal * 0.16; // 16% IVA
+ double impuestos = subtotal * 0.16; 
             double total = subtotal + impuestos;
             document.add(tabla);
 
@@ -142,7 +153,7 @@ for (int i = 0; i < matrizOfertas.length; i++) {
             document.add(pie);
 
             document.close();
-            System.out.println("Factura PDF con colores creada con éxito!");
+            System.out.println("Factura creada con éxito!");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,3 +163,4 @@ for (int i = 0; i < matrizOfertas.length; i++) {
     
     
 }
+\
